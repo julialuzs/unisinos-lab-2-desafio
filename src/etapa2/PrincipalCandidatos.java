@@ -1,24 +1,25 @@
 package etapa2;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class PrincipalCandidatos {
 
-    private static final String[] nomes = {"Julia", "Gabriel", "Allan", "Paola", "Giordano", "Marina"};
-    private static final int[] intencoesVoto = {100, 300, 150, 250};
-    private static final String[] partidos = {"PT", "PL", "PSDB"};
+    private static final String[] nomes = { "Julia", "Gabriel", "Allan", "Paola", "Giordano", "Marina" };
+    private static final int[] intencoesVoto = { 1000, 3000, 999, 1500, 2500 };
+    private static final String[] partidos = { "PT", "PL", "PSDB", "PSOL" };
 
     public static void main(String[] args)  {
         Candidato[] candidatos = gerarCandidatos(20);
-        System.out.println(candidatos.toString());
-        Candidato[] candidatosOrdenadosPorPartido = ordenaCandidatosPorPartido(candidatos);
+
+        Candidato[] candidatosOrdenadosPorPartido = ordenaCandidatosPorPartido(Arrays.copyOf(candidatos, candidatos.length));
         Candidato[] candidatosOrdenadosPorVotos = ordenaCandidatosPorVotos(candidatosOrdenadosPorPartido);
         Candidato[] candidatosOrdenadosPorNome = ordenaCandidatosPorNome(candidatosOrdenadosPorVotos);
 
         System.out.println("Lista de candidatos: ");
-        for (int i = 0; i < candidatosOrdenadosPorNome.length; i++) {
-            System.out.println(candidatosOrdenadosPorNome[i].toString());
+        for (Candidato candidato : candidatosOrdenadosPorNome) {
+            System.out.println(candidato.toString());
         }
 
         Scanner scanner = new Scanner(System.in);
@@ -55,52 +56,43 @@ public class PrincipalCandidatos {
     public static Candidato[] ordenaCandidatosPorNome(Candidato[] candidatos) {
         int qtdCandidatos = candidatos.length;
 
-        for (int i = 0; i < qtdCandidatos - 1; i++)
-        {
-            int idxMenorNum = i;
-            for (int j = i + 1; j < qtdCandidatos; j++) {
-                int comparacao = candidatos[j].getNome()
-                        .compareToIgnoreCase(
-                                candidatos[idxMenorNum].getNome()
-                        );
-                if (comparacao < 0)
-                    idxMenorNum = j;
+        for (int i = 1; i < qtdCandidatos; i++) {
+            Candidato chave = candidatos[i];
+            int j = i - 1;
+
+            while (j >= 0 && candidatos[j].getNome().compareToIgnoreCase(chave.getNome()) > 0) {
+                candidatos[j + 1] = candidatos[j];
+                j = j - 1;
             }
-
-            Candidato temp = candidatos[idxMenorNum];
-            candidatos[idxMenorNum] = candidatos[i];
-            candidatos[i] = temp;
+            candidatos[j + 1] = chave;
         }
-
         return candidatos;
     }
 
     public static Candidato[] ordenaCandidatosPorVotos(Candidato[] candidatos) {
-        int n = candidatos.length;
-        for (int i = 1; i < n; i++) {
-            int key = candidatos[i].getIntencoesVotos();
+        int qtdCandidatos = candidatos.length;
+
+        for (int i = 1; i < qtdCandidatos; i++) {
+            Candidato chave = candidatos[i];
             int j = i - 1;
 
-            while (j >= 0 && candidatos[j].getIntencoesVotos() > key) {
+            while (j >= 0 && candidatos[j].getIntencoesVotos() > chave.getIntencoesVotos()) {
                 candidatos[j + 1] = candidatos[j];
                 j = j - 1;
             }
-            candidatos[j + 1].setIntencoesVotos(key);
+            candidatos[j + 1] = chave;
         }
         return candidatos;
     }
 
     public static Candidato[] ordenaCandidatosPorPartido(Candidato[] candidatos) {
+        // selection sort
         int qtdCandidatos = candidatos.length;
-
-        for (int i = 0; i < qtdCandidatos - 1; i++)
-        {
+        for (int i = 0; i < qtdCandidatos - 1; i++) {
             int idxMenorNum = i;
             for (int j = i + 1; j < qtdCandidatos; j++) {
                 int comparacao = candidatos[j].getPartido()
-                        .compareToIgnoreCase(
-                                candidatos[idxMenorNum].getPartido()
-                        );
+                        .compareToIgnoreCase(candidatos[idxMenorNum].getPartido());
                 if (comparacao < 0)
                     idxMenorNum = j;
             }
