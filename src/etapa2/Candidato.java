@@ -37,6 +37,6 @@ public class Candidato {
     }
 
     public String toString() {
-        return "Nome: " + nome + "/nPartido: " + partido + "/nIntenções de voto: " + intencoesVotos;
+        return "Nome: " + nome + " | Partido: " + partido + " | Intenções de voto: " + intencoesVotos;
     }
 }
