@@ -1,5 +1,8 @@
 package etapa3;
 
+import exceptions.OverflowException;
+import exceptions.UnderflowException;
+
 /**
  * Implementação de uma lista linear com armazenamento estático,
  * baseado em array.

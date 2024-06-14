@@ -1,4 +1,4 @@
-package etapa3;
+package exceptions;
 
 public class OverflowException extends RuntimeException {
     public OverflowException() {
