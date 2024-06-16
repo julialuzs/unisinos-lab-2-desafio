@@ -61,7 +61,8 @@ public class Labirinto {
         // Marca a posição como visitada
         labirinto[x][y] = 'V';
 
-        boolean encontradoPosicaoAndavel = percorreLabirinto(x + 1, y) ||  // baixo
+        boolean encontradoPosicaoAndavel =
+                percorreLabirinto(x + 1, y) ||  // baixo
                 percorreLabirinto(x - 1, y) ||  // cima
                 percorreLabirinto(x, y + 1) ||  // direita
                 percorreLabirinto(x, y - 1);    // esquerda

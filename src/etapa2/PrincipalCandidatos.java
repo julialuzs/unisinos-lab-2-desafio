@@ -17,7 +17,7 @@ public class PrincipalCandidatos {
         Candidato[] candidatosOrdenadosPorVotos = ordenaCandidatosPorVotos(candidatosOrdenadosPorPartido);
         Candidato[] candidatosOrdenadosPorNome = ordenaCandidatosPorNome(candidatosOrdenadosPorVotos);
 
-        System.out.println("Lista de candidatos: ");
+        System.out.println("Lista de candidatos ordenados: ");
         for (Candidato candidato : candidatosOrdenadosPorNome) {
             System.out.println(candidato.toString());
         }
@@ -26,14 +26,19 @@ public class PrincipalCandidatos {
         System.out.println("----------------------------------------------");
         System.out.println("Digite o nome do candidato a ser encontrado: ");
         String nomeBusca = scanner.next();
-        System.out.println(buscaCandidatoPorNome(candidatosOrdenadosPorNome, nomeBusca));
+        Candidato candidatoBuscado = buscaCandidatoPorNome(candidatosOrdenadosPorNome, nomeBusca);
+        if (candidatoBuscado == null) {
+            System.out.println("Candidato com nome '" + nomeBusca + "' não encontrado.");
+        } else {
+            System.out.println(candidatoBuscado.toString());
+        }
         scanner.close();
     }
 
-    public static String buscaCandidatoPorNome(Candidato[] candidatos, String nome) {
+    public static Candidato buscaCandidatoPorNome(Candidato[] candidatos, String nome) {
         int indexCandidato = pesquisaBinariaCandidatos(candidatos, nome);
         if (indexCandidato == -1) { return null; }
-        return candidatos[indexCandidato].toString();
+        return candidatos[indexCandidato];
     }
 
     public static Candidato[] gerarCandidatos(int numeroDeCandidatos) {
@@ -86,7 +91,6 @@ public class PrincipalCandidatos {
     }
 
     public static Candidato[] ordenaCandidatosPorPartido(Candidato[] candidatos) {
-        // selection sort
         int qtdCandidatos = candidatos.length;
         for (int i = 0; i < qtdCandidatos - 1; i++) {
             int idxMenorNum = i;
